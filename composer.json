@@ -1,0 +1,102 @@
+{
+    "name": "omaralalwi/laravel-trash-cleaner",
+    "description": "clean logs and debug files (clockwork , laravel telescope and more)",
+    "keywords": [
+        "omaralalwi",
+        "laravel-trash-cleaner",
+        "clockwork",
+        "telescope",
+        "Laravel",
+        "Logs",
+        "Debugging",
+        "Cleanup",
+        "Optimization",
+        "Performance",
+        "Disk Space",
+        "Maintenance",
+        "Utilities",
+        "Tools",
+        "Development",
+        "Production",
+        "Environment",
+        "Clockwork",
+        "Telescope",
+        "Storage",
+        "Files",
+        "Management",
+        "System Health",
+        "Application",
+        "PHP",
+        "Framework",
+        "Package",
+        "Extension",
+        "Module",
+        "Library",
+        "Cleaner",
+        "Purger",
+        "Organizer",
+        "Monitor",
+        "Progress Bar",
+        "Real-Time",
+        "Efficiency",
+        "Streamline",
+        "Enhance",
+        "Improve",
+        "Optimize",
+        "Speed Up",
+        "Reduce Size",
+        "Manage Files",
+        "Delete Files",
+        "Remove Files",
+        "Clear Cache",
+        "Cache Cleaning",
+        "Log Rotation",
+        "File Deletion",
+        "Automatic Cleanup",
+        "Manual Cleanup",
+        "Scheduled Tasks",
+        "Cron Jobs"
+    ],
+    "homepage": "https://github.com/omaralalwi/laravel-trash-cleaner",
+    "license": "MIT",
+    "type": "library",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "omar alalwi",
+            "email": "omaralwi2010@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.1|^8.2|^8.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Omaralalwi\\LaravelTrashCleaner\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Omaralalwi\\LaravelTrashCleaner\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Omaralalwi\\LaravelTrashCleaner\\LaravelTrashCleanerServiceProvider"
+            ],
+            "aliases": {
+                "LaravelTrashCleaner": "Omaralalwi\\LaravelTrashCleaner\\LaravelTrashCleanerFacade"
+            }
+        }
+    }
+}

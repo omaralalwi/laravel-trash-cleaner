@@ -37,11 +37,9 @@ class LaravelTrashCleanerServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'laravel-trash-cleaner');
 
-      /*
         $this->app->singleton('laravel-trash-cleaner', function () {
             return new LaravelTrashCleaner;
         });
-      */
     }
 
     /**

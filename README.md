@@ -62,6 +62,39 @@ The MIT License (MIT). See [LICENSE](LICENSE.md) for more information.
 
 ---
 
+
+## Contributors ✨
+
+Thanks to these wonderful people for contributing to this project! 💖
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/omaralalwi">
+        <img src="https://avatars.githubusercontent.com/u/25439498?v=4" width="100px;" alt="Omar Al Alwi"/>
+        <br />
+        <sub><b>Omar Al Alwi</b></sub>
+      </a>
+      <br />
+      🏆 Owner
+    </td>
+    <!-- Contributors -->
+    <td align="center">
+      <a href="https://github.com/A909M">
+        <img src="https://avatars.githubusercontent.com/u/119125167?v=4" width="100px;" alt="Asim Al-Wasai"/>
+        <br />
+        <sub><b>Asim Al-Wasai</b></sub>
+      </a>
+      <br />
+      💻 Contributor
+    </td>
+  </tr>
+</table>
+
+Want to contribute? Check out the [contributing guidelines](./CONTRIBUTING.md) and submit a pull request! 🚀
+
+---
+
  
 ## 📚 Helpful Open Source Packages
 

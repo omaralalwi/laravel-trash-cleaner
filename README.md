@@ -83,7 +83,7 @@ Thanks to these wonderful people for contributing to this project! 💖
       <a href="https://github.com/A909M">
         <img src="https://avatars.githubusercontent.com/u/119125167?v=4" width="100px;" alt="Asim Al-Wasai"/>
         <br />
-        <sub><b>Asim Al-Wasai</b></sub>
+        <sub><b> Assem Alwaseai </b></sub>
       </a>
       <br />
       💻 Contributor

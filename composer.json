@@ -60,7 +60,7 @@
     "homepage": "https://github.com/omaralalwi/laravel-trash-cleaner",
     "license": "MIT",
     "type": "library",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "authors": [
         {
             "name": "omar alalwi",

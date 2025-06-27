@@ -14,6 +14,9 @@
 
 ![Trash Cleaner Screenshot](https://raw.githubusercontent.com/omaralalwi/laravel-trash-cleaner/master/public/images/trash-screen-shot.png)
 
+
+![Trash Assets Cleaner Screenshot](https://raw.githubusercontent.com/omaralalwi/laravel-trash-cleaner/master/public/images/trash-assets-screen-shot.png)
+
 ---
 
 ## 🚀 Installation

@@ -4,7 +4,7 @@ namespace Omaralalwi\LaravelTrashCleaner;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
-use Omaralalwi\LaravelTrashCleaner\Commands\{CleanCommand, CleanUpAssets};
+use Omaralalwi\LaravelTrashCleaner\Commands\{CleanUpDebugTrash,CleanUpAssets};
 
 class LaravelTrashCleanerServiceProvider extends ServiceProvider
 {
@@ -15,27 +15,25 @@ class LaravelTrashCleanerServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $configFile = config_path('laravel-trash-cleaner.php');
-            $packageConfig = __DIR__ . '/../config/config.php';
 
-            // 🔥 Force delete the old config file if it exists
+            // Force delete the old config file if it exists
             if (file_exists($configFile)) {
                 unlink($configFile);
             }
 
-            // 📦 Publish the fresh config file
             $this->publishes([
-                $packageConfig => $configFile,
-            ], 'config');
+                __DIR__.'/../config/laravel-trash-cleaner.php' => config_path('laravel-trash-cleaner.php'),
+            ], 'laravel-trash-cleaner');
 
-            // 🧹 Register package commands
+            // Register the command
             $this->commands([
-                CleanCommand::class,
+                CleanUpDebugTrash::class,
                 CleanUpAssets::class,
             ]);
 
-            // 🗓️ Register scheduler task if enabled
-            $this->app->afterResolving('events', function () {
-                $this->scheduleCleanupTask($this->app->make(Schedule::class));
+            $this->app->afterResolving('events', function ($events) {
+                $scheduler = $this->app->make(Schedule::class);
+                $this->scheduleCleanupTask($scheduler);
             });
         }
     }
@@ -45,20 +43,19 @@ class LaravelTrashCleanerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(
-            __DIR__.'/../config/config.php',
-            'laravel-trash-cleaner'
-        );
+        $this->mergeConfigFrom(__DIR__.'/../config/laravel-trash-cleaner.php', 'laravel-trash-cleaner');
     }
 
     /**
      * Schedule the cleanup task based on the configuration.
+     *
+     * @param Schedule $schedule
      */
     protected function scheduleCleanupTask(Schedule $schedule)
     {
         $config = config('laravel-trash-cleaner');
 
-        if (!empty($config['schedule'])) {
+        if ($config['schedule']) {
             $schedule->command('trash:clean')->{$config['frequency']}();
         }
     }

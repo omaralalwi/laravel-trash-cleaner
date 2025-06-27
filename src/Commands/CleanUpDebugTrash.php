@@ -5,7 +5,7 @@ namespace Omaralalwi\LaravelTrashCleaner\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
-class CleanCommand extends Command
+class CleanUpDebugTrash extends Command
 {
     protected $signature = 'trash:clean';
 

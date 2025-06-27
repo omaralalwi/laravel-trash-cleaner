@@ -4,7 +4,7 @@ namespace Omaralalwi\LaravelTrashCleaner;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
-use Omaralalwi\LaravelTrashCleaner\Commands\CleanCommand;
+use Omaralalwi\LaravelTrashCleaner\Commands\{CleanCommand, CleanUpAssets};
 
 class LaravelTrashCleanerServiceProvider extends ServiceProvider
 {
@@ -21,6 +21,7 @@ class LaravelTrashCleanerServiceProvider extends ServiceProvider
             // Register the command
             $this->commands([
                 CleanCommand::class,
+                CleanUpAssets::class,
             ]);
 
             $this->app->afterResolving('events', function ($events) {

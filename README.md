@@ -29,7 +29,7 @@ composer require omaralalwi/laravel-trash-cleaner
 Optionally, publish the configuration file to customize paths and build settings:
 
 ```bash
-php artisan vendor:publish --provider="Omaralalwi\LaravelTrashCleaner\Providers\LaravelTrashCleanerServiceProvider" --tag=config
+php artisan vendor:publish --tag=laravel-trash-cleaner
 ```
 
 ---

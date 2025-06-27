@@ -14,19 +14,28 @@ class LaravelTrashCleanerServiceProvider extends ServiceProvider
     public function boot()
     {
         if ($this->app->runningInConsole()) {
+            $configFile = config_path('laravel-trash-cleaner.php');
+            $packageConfig = __DIR__ . '/../config/config.php';
+
+            // 🔥 Force delete the old config file if it exists
+            if (file_exists($configFile)) {
+                unlink($configFile);
+            }
+
+            // 📦 Publish the fresh config file
             $this->publishes([
-                __DIR__.'/../config/config.php' => config_path('laravel-trash-cleaner.php'),
+                $packageConfig => $configFile,
             ], 'config');
 
-            // Register the command
+            // 🧹 Register package commands
             $this->commands([
                 CleanCommand::class,
                 CleanUpAssets::class,
             ]);
 
-            $this->app->afterResolving('events', function ($events) {
-                $scheduler = $this->app->make(Schedule::class);
-                $this->scheduleCleanupTask($scheduler);
+            // 🗓️ Register scheduler task if enabled
+            $this->app->afterResolving('events', function () {
+                $this->scheduleCleanupTask($this->app->make(Schedule::class));
             });
         }
     }
@@ -36,25 +45,20 @@ class LaravelTrashCleanerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'laravel-trash-cleaner');
-
-      /*
-        $this->app->singleton('laravel-trash-cleaner', function () {
-            return new LaravelTrashCleaner;
-        });
-      */
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/config.php',
+            'laravel-trash-cleaner'
+        );
     }
 
     /**
      * Schedule the cleanup task based on the configuration.
-     *
-     * @param Schedule $schedule
      */
     protected function scheduleCleanupTask(Schedule $schedule)
     {
         $config = config('laravel-trash-cleaner');
 
-        if ($config['schedule']) {
+        if (!empty($config['schedule'])) {
             $schedule->command('trash:clean')->{$config['frequency']}();
         }
     }

@@ -1,29 +1,29 @@
 <?php
 
-/**
- * Configuration for the Trash Cleaner package.
- *
- * @package Omaralalwi\LaravelTrashCleaner
- */
-
 return [
-    /**
-     * Determines if the scheduled task for cleaning up debug files should be enabled.
-     *
-     * Set to true to enable the automatic cleanup task.
-     *
-     * @var bool
-     */
 
     'schedule' => false,
+    'frequency' => 'daily',
 
     /**
-     * Defines the frequency at which the cleanup task should run.
-     *
-     * Accepts any valid frequency string supported by Laravel's task scheduler, such as 'hourly', 'daily', etc.
-     *
-     * @var string
+     * Path cleanup targets (glob supported)
      */
+    'cleanup_paths' => [
+        'storage/framework/views/*',
+        'public/build',
+        'node_modules/.vite',
+    ],
 
-    'frequency' => 'daily',
+    /**
+     * Node package manager to use (e.g. "npm", "pnpm", or "yarn")
+     */
+    'package_manager' => 'npm',
+
+    /**
+     * Build commands, relative to the chosen package manager
+     */
+    'build_commands' => [
+        'install',
+        'run build',
+    ],
 ];

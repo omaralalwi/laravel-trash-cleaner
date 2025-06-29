@@ -22,7 +22,7 @@ class LaravelTrashCleanerServiceProvider extends ServiceProvider
             }
 
             $this->publishes([
-                __DIR__.'/../config/laravel-trash-cleaner.php' => config_path('laravel-trash-cleaner.php'),
+                __DIR__.'/../config/config.php' => config_path('laravel-trash-cleaner.php'),
             ], 'laravel-trash-cleaner');
 
             // Register the command
@@ -43,7 +43,7 @@ class LaravelTrashCleanerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/laravel-trash-cleaner.php', 'laravel-trash-cleaner');
+        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'laravel-trash-cleaner');
     }
 
     /**

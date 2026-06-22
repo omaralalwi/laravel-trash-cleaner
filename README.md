@@ -6,16 +6,46 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="https://packagist.org/packages/omaralalwi/laravel-trash-cleaner"><img src="https://img.shields.io/packagist/v/omaralalwi/laravel-trash-cleaner.svg?style=flat-square" alt="Latest Version on Packagist"></a>
+  <a href="https://packagist.org/packages/omaralalwi/laravel-trash-cleaner"><img src="https://img.shields.io/packagist/dt/omaralalwi/laravel-trash-cleaner.svg?style=flat-square" alt="Total Downloads"></a>
+  <a href="https://packagist.org/packages/omaralalwi/laravel-trash-cleaner"><img src="https://img.shields.io/packagist/php-v/omaralalwi/laravel-trash-cleaner.svg?style=flat-square" alt="PHP Version"></a>
+  <a href="LICENSE.md"><img src="https://img.shields.io/packagist/l/omaralalwi/laravel-trash-cleaner.svg?style=flat-square" alt="License"></a>
+</p>
+
 **Laravel Trash Cleaner** is a lightweight and powerful utility package that helps you keep your Laravel application clean and performant by:
 
-* 🧹 Deleting debug and log files (Clockwork, Debugbar).
+* 🧹 Deleting debug files (Debugbar, Clockwork) from `storage/`.
 * ⚡ Clearing compiled view caches and frontend build directories.
 * 🛠️ Optionally rebuilding frontend assets using tools like `npm`, `yarn`, or `pnpm`.
+* ⏰ Optionally scheduling automatic cleanup via Laravel's scheduler.
 
 ![Trash Cleaner Screenshot](https://raw.githubusercontent.com/omaralalwi/laravel-trash-cleaner/master/public/images/trash-screen-shot.png)
 
 
 ![Trash Assets Cleaner Screenshot](https://raw.githubusercontent.com/omaralalwi/laravel-trash-cleaner/master/public/images/trash-assets-screen-shot.png)
+
+---
+
+## 📋 Table of Contents
+
+- [Requirements](#-requirements)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [Configuration](#-configuration)
+- [Scheduling Automatic Cleanup](#-scheduling-automatic-cleanup)
+- [Contributing](#-contributing)
+- [Security](#️-security)
+- [License](#-license)
+- [Helpful Open Source Packages](#-helpful-open-source-packages)
+
+---
+
+## ✅ Requirements
+
+- **PHP** `7.4` or `8.1+` (`^7.4 | ^8.1 | ^8.2 | ^8.3 | ^8.4`)
+- **Laravel** `8.x` or higher
+- A **Unix-like environment** (Linux/macOS) for `trash:clean-assets`, which uses `rm` and your Node package manager. See the [note below](#-clean-asset-folders).
 
 ---
 
@@ -29,7 +59,7 @@ composer require omaralalwi/laravel-trash-cleaner
 
 ### 🔧 Publish Configuration
 
-Optionally, publish the configuration file to customize paths and build settings:
+Optionally, publish the configuration file to customize paths and build settings (see [Configuration](#-configuration)):
 
 ```bash
 php artisan vendor:publish --tag=laravel-trash-cleaner
@@ -41,7 +71,7 @@ php artisan vendor:publish --tag=laravel-trash-cleaner
 
 ### 🔸 Clean Debug Files
 
-Cleans out `storage/debugbar` and `storage/clockwork` folders with a progress bar:
+Deletes the `.json` debug files from the `storage/debugbar` and `storage/clockwork` folders with a progress bar, and reports how much disk space was freed:
 
 ```bash
 php artisan trash:clean
@@ -49,11 +79,13 @@ php artisan trash:clean
 
 ### 🔸 Clean Asset Folders
 
-Removes frontend-related build caches and compiled view files based on your config:
+Removes frontend-related build caches and compiled view files based on your config (see [`cleanup_paths`](#-configuration)):
 
 ```bash
 php artisan trash:clean-assets
 ```
+
+> **Note:** `trash:clean-assets` runs `rm -rf` and your Node package manager under the hood, so it is intended for Unix-like environments (Linux/macOS). It is not supported on native Windows shells.
 
 ### 🔸 Clean + Rebuild Frontend (Optional)
 
@@ -67,8 +99,56 @@ This is ideal for resetting the build process after switching branches, clearing
 
 ---
 
-### customize Assets paths &  commnds
-> **Note:** You can fully customize the asset cleanup paths and build commands in the configuration file. For example, if you're using **`pnpm`** instead of the default **`npm`**, make sure to update the config key to `'package_manager' => 'pnpm'`.
+---
+
+## ⚙️ Configuration
+
+Publish the config file (if you haven't already):
+
+```bash
+php artisan vendor:publish --tag=laravel-trash-cleaner
+```
+
+This creates `config/laravel-trash-cleaner.php`:
+
+```php
+return [
+
+    // Enable Laravel scheduler integration for `trash:clean` (see Scheduling below).
+    'schedule' => false,
+
+    // How often the scheduled cleanup runs. Must be a valid Laravel Schedule
+    // frequency method, e.g. 'daily', 'hourly', 'everyFifteenMinutes', 'weekly'.
+    'frequency' => 'daily',
+
+    // Paths removed by `trash:clean-assets` (relative to the project root, glob supported).
+    'cleanup_paths' => [
+        'storage/framework/views/*',
+        'public/build',
+        'node_modules/.vite',
+    ],
+
+    // Node package manager used by the `--build` flag: "npm", "pnpm", or "yarn".
+    'package_manager' => 'npm',
+
+    // Commands run (per entry) when `--build` is passed, prefixed by the package manager above.
+    // e.g. with npm: `npm install` then `npm run build`.
+    'build_commands' => [
+        'install',
+        'run build',
+    ],
+];
+```
+
+| Key | Type | Default | Description |
+| --- | --- | --- | --- |
+| `schedule` | `bool` | `false` | Auto-schedule `trash:clean` via Laravel's scheduler. |
+| `frequency` | `string` | `'daily'` | Any Laravel `Schedule` frequency method name. |
+| `cleanup_paths` | `array` | see above | Paths deleted by `trash:clean-assets`. |
+| `package_manager` | `string` | `'npm'` | Node package manager for the `--build` step. |
+| `build_commands` | `array` | `['install', 'run build']` | Commands appended to the package manager when building. |
+
+> **Tip:** If you use **`pnpm`** instead of the default **`npm`**, set `'package_manager' => 'pnpm'`.
 
 ---
 
@@ -80,7 +160,7 @@ To automate cleanup using Laravel's scheduler:
 
 ```php
 'schedule' => true,
-'frequency' => 'daily',
+'frequency' => 'daily', // any Laravel Schedule frequency method, e.g. 'hourly', 'weekly'
 ```
 
 2. Ensure Laravel's scheduler is running via cron:
@@ -88,6 +168,12 @@ To automate cleanup using Laravel's scheduler:
 ```bash
 * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
 ```
+
+> **Note:** Only `trash:clean` (debug files) is auto-scheduled. To schedule `trash:clean-assets` as well, register it manually in your application's `routes/console.php` (or `app/Console/Kernel.php`):
+>
+> ```php
+> Schedule::command('trash:clean-assets')->weekly();
+> ```
 
 ---
 

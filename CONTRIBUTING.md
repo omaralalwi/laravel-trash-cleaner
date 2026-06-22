@@ -40,9 +40,9 @@ Before submitting a pull request:
 
 If the project maintainer has any additional requirements, you will find them listed here.
 
-- **[PSR-2 Coding Standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)** - The easiest way to apply the conventions is to install [PHP Code Sniffer](https://pear.php.net/package/PHP_CodeSniffer).
+- **[PSR-12 Coding Standard](https://www.php-fig.org/psr/psr-12/)** - Code style is checked automatically on every pull request via [StyleCI](https://styleci.io/) (see `.styleci.yml`). Please keep your changes consistent with the existing style.
 
-- **Add tests!** - Your patch won't be accepted if it doesn't have tests.
+- **Add tests where applicable** - If your change affects behavior, please include tests so it can be verified and protected against regressions.
 
 - **Document any change in behaviour** - Make sure the `README.md` and any other relevant documentation are kept up-to-date.
 

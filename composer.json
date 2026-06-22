@@ -1,11 +1,10 @@
 {
     "name": "omaralalwi/laravel-trash-cleaner",
-    "description": "clean logs and debug files (clockwork , laravel telescope and more)",
+    "description": "Clean Laravel debug/log files (Debugbar, Clockwork), compiled views and frontend build artifacts, with optional rebuild and scheduling.",
     "keywords": [
         "laravel",
         "laravel-trash-cleaner",
         "clockwork",
-        "telescope",
         "vite",
         "build cleanup",
         "debug cleanup",
